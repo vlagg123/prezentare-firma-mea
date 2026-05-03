@@ -57,7 +57,7 @@ export default function ContactDialog({ trigger }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         data-testid="contact-dialog"
-        className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px]"
+        className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px] overflow-hidden"
       >
         {/* Mobile header with back button */}
         <div className="sm:hidden flex items-center gap-3 px-5 pt-5 pb-3 border-b border-violet-500/20">
@@ -71,7 +71,7 @@ export default function ContactDialog({ trigger }) {
           <span className="font-display text-lg text-white">Spune-ne ideea ta</span>
         </div>
 
-        <div className="relative p-5 sm:p-7">
+        <div className="relative p-4 sm:p-7">
           <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gradient-to-br from-cyan-400/20 via-violet-500/20 to-pink-500/20 blur-3xl pointer-events-none" />
 
           {/* Desktop header */}
@@ -79,11 +79,9 @@ export default function ContactDialog({ trigger }) {
             <h2 className="font-display text-2xl tracking-tight text-white">Spune-ne ideea ta</h2>
             <p className="text-violet-200/60 mt-1 text-sm">Revenim în maxim 24 de ore cu un plan și estimare.</p>
           </div>
-          {/* Mobile subtitle */}
-          <p className="sm:hidden text-violet-200/60 text-sm mb-4">Revenim în maxim 24 de ore cu un plan și estimare.</p>
 
-          <form onSubmit={submit} className="space-y-4 relative" data-testid="contact-form">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onSubmit={submit} className="space-y-2.5 sm:space-y-4 relative" data-testid="contact-form">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
               <div>
                 <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Nume</label>
                 <input
@@ -132,7 +130,7 @@ export default function ContactDialog({ trigger }) {
                       key={t}
                       data-testid={`form-type-${t.replace(/\s+/g, "-").toLowerCase()}`}
                       onClick={() => update("type", t)}
-                      className={`px-3.5 py-2 rounded-full font-mono text-[11px] tracking-wide transition-all ${
+                      className={`px-3 py-1.5 rounded-full font-mono text-[10px] tracking-wide transition-all ${
                         active
                           ? "bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 text-white border-0"
                           : "bg-white/5 border border-violet-400/20 text-violet-200/70 hover:border-violet-400/60"
@@ -149,7 +147,7 @@ export default function ContactDialog({ trigger }) {
               <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Mesaj (opțional)</label>
               <textarea
                 data-testid="form-message"
-                rows={3}
+                rows={2}
                 className="input-dark mt-2 resize-none"
                 placeholder="Câteva detalii despre idee, deadline, buget..."
                 value={form.message}

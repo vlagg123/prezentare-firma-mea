@@ -63,9 +63,9 @@ export default function Navbar() {
               data-testid="nav-link-idee"
               onClick={(e) => { e.preventDefault(); document.getElementById("message")?.scrollIntoView({ behavior: "smooth", block: "center" }); }}
             >Idee</a>
-            <a href="#build" className="font-mono text-[11px] tracking-[0.2em] uppercase text-violet-200/80 hover:text-white transition" data-testid="nav-link-construim">Construim</a>
-            <a href="#process" className="font-mono text-[11px] tracking-[0.2em] uppercase text-violet-200/80 hover:text-white transition" data-testid="nav-link-proces">Proces</a>
-            <a href="#incredere" className="font-mono text-[11px] tracking-[0.2em] uppercase text-violet-200/80 hover:text-white transition" data-testid="nav-link-incredere">Încredere</a>
+            <a href="#build" className="font-mono text-[11px] tracking-[0.2em] uppercase text-violet-200/80 hover:text-white transition" data-testid="nav-link-construim" onClick={(e) => { e.preventDefault(); document.getElementById("build")?.scrollIntoView({ behavior: "smooth" }); }}>Construim</a>
+            <a href="#process" className="font-mono text-[11px] tracking-[0.2em] uppercase text-violet-200/80 hover:text-white transition" data-testid="nav-link-proces" onClick={(e) => { e.preventDefault(); document.getElementById("process")?.scrollIntoView({ behavior: "smooth" }); }}>Proces</a>
+            <a href="#incredere" className="font-mono text-[11px] tracking-[0.2em] uppercase text-violet-200/80 hover:text-white transition" data-testid="nav-link-incredere" onClick={(e) => { e.preventDefault(); document.getElementById("incredere")?.scrollIntoView({ behavior: "smooth" }); }}>Încredere</a>
           </div>
 
           {/* Desktop CTA */}
