@@ -35,8 +35,8 @@ export default function Navbar() {
     <>
       <nav
         data-testid="navbar"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "py-3 glass-strong" : "py-5 md:py-6 bg-[#050508]/70 md:bg-transparent backdrop-blur-md md:backdrop-blur-none"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-[#050508]/70 backdrop-blur-md md:bg-transparent md:backdrop-blur-none ${
+          scrolled ? "py-3" : "py-5 md:py-6"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
