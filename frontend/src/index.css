@@ -229,6 +229,10 @@ body {
 /* Section spacing */
 .section { position: relative; padding: 9rem 0; }
 
+@media (max-width: 768px) {
+  .section { padding: 4.5rem 0; }
+}
+
 @layer base {
   :root {
     --background: 240 20% 3%;

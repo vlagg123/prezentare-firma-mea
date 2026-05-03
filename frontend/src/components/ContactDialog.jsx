@@ -3,12 +3,9 @@ import {
   Dialog,
   DialogContent,
   DialogTrigger,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, ArrowLeft } from "lucide-react";
 
 const websiteTypes = [
   "Site de prezentare",
@@ -41,7 +38,6 @@ export default function ContactDialog({ trigger }) {
       return;
     }
     setSubmitting(true);
-    // Frontend-only: persist to localStorage so leads aren't lost in demo
     try {
       const list = JSON.parse(localStorage.getItem("zentrox_leads") || "[]");
       list.push({ ...form, ts: new Date().toISOString() });
@@ -61,25 +57,35 @@ export default function ContactDialog({ trigger }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         data-testid="contact-dialog"
-        className="sm:max-w-[560px] glass-strong border-violet-500/30 text-violet-50 p-0 overflow-hidden"
+        className="glass-strong border-violet-500/30 text-violet-50 p-0 overflow-hidden sm:max-w-[560px]"
       >
-        <div className="relative p-7">
-          <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gradient-to-br from-cyan-400/20 via-violet-500/20 to-pink-500/20 blur-3xl pointer-events-none" />
-          <DialogHeader className="text-left relative">
-            <DialogTitle className="font-display text-2xl tracking-tight text-white">
-              Spune-ne ideea ta
-            </DialogTitle>
-            <DialogDescription className="text-violet-200/60 mt-1 text-sm">
-              Revenim în maxim 24 de ore cu un plan și estimare.
-            </DialogDescription>
-          </DialogHeader>
+        {/* Mobile header with back button */}
+        <div className="sm:hidden flex items-center gap-3 px-5 pt-5 pb-3 border-b border-violet-500/20">
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-violet-500/10 border border-violet-400/20 text-violet-200 active:scale-95 transition"
+          >
+            <ArrowLeft size={16} />
+          </button>
+          <span className="font-display text-lg text-white">Spune-ne ideea ta</span>
+        </div>
 
-          <form onSubmit={submit} className="mt-5 space-y-3.5 relative" data-testid="contact-form">
-            <div className="grid sm:grid-cols-2 gap-4">
+        <div className="relative p-5 sm:p-7">
+          <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gradient-to-br from-cyan-400/20 via-violet-500/20 to-pink-500/20 blur-3xl pointer-events-none" />
+
+          {/* Desktop header */}
+          <div className="hidden sm:block relative mb-5">
+            <h2 className="font-display text-2xl tracking-tight text-white">Spune-ne ideea ta</h2>
+            <p className="text-violet-200/60 mt-1 text-sm">Revenim în maxim 24 de ore cu un plan și estimare.</p>
+          </div>
+          {/* Mobile subtitle */}
+          <p className="sm:hidden text-violet-200/60 text-sm mb-4">Revenim în maxim 24 de ore cu un plan și estimare.</p>
+
+          <form onSubmit={submit} className="space-y-4 relative" data-testid="contact-form">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">
-                  Nume
-                </label>
+                <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Nume</label>
                 <input
                   data-testid="form-name"
                   className="input-dark mt-2"
@@ -90,9 +96,7 @@ export default function ContactDialog({ trigger }) {
                 />
               </div>
               <div>
-                <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">
-                  Email
-                </label>
+                <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Email</label>
                 <input
                   data-testid="form-email"
                   type="email"
@@ -106,9 +110,7 @@ export default function ContactDialog({ trigger }) {
             </div>
 
             <div>
-              <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">
-              Telefon
-              </label>
+              <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Telefon</label>
               <input
                 data-testid="form-phone"
                 className="input-dark mt-2"
@@ -120,9 +122,7 @@ export default function ContactDialog({ trigger }) {
             </div>
 
             <div>
-              <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">
-                Tip de website
-              </label>
+              <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Tip de website</label>
               <div className="mt-2 flex flex-wrap gap-2" data-testid="form-types">
                 {websiteTypes.map((t) => {
                   const active = form.type === t;
@@ -132,7 +132,7 @@ export default function ContactDialog({ trigger }) {
                       key={t}
                       data-testid={`form-type-${t.replace(/\s+/g, "-").toLowerCase()}`}
                       onClick={() => update("type", t)}
-                      className={`px-3.5 py-1.5 rounded-full font-mono text-[11px] tracking-wide transition-all ${
+                      className={`px-3.5 py-2 rounded-full font-mono text-[11px] tracking-wide transition-all ${
                         active
                           ? "bg-gradient-to-r from-cyan-400 via-violet-500 to-pink-500 text-white border-0"
                           : "bg-white/5 border border-violet-400/20 text-violet-200/70 hover:border-violet-400/60"
@@ -146,9 +146,7 @@ export default function ContactDialog({ trigger }) {
             </div>
 
             <div>
-              <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">
-                Mesaj (opțional)
-              </label>
+              <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Mesaj (opțional)</label>
               <textarea
                 data-testid="form-message"
                 rows={3}
@@ -159,11 +157,11 @@ export default function ContactDialog({ trigger }) {
               />
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-1 pb-2">
               <button
                 type="submit"
                 disabled={submitting}
-                className="btn-neon disabled:opacity-60"
+                className="btn-neon w-full sm:w-auto disabled:opacity-60"
                 data-testid="form-submit"
               >
                 {submitting ? "Se trimite..." : "Trimite cererea"}
