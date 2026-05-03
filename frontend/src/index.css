@@ -226,6 +226,10 @@ body {
 }
 .input-dark::placeholder { color: #6b7095; }
 
+@media (max-width: 768px) {
+  .input-dark { font-size: 16px; }
+}
+
 /* Section spacing */
 .section { position: relative; padding: 9rem 0; }
 
