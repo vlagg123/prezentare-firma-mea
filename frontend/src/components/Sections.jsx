@@ -93,7 +93,7 @@ export default function Sections({ ready }) {
             <div className="mt-14 flex items-center gap-6 text-xs font-mono text-violet-200/50 tracking-[0.2em] uppercase">
               <span>Design · Cod · Rezultate</span>
               <span className="w-px h-4 bg-violet-400/30" />
-              <span>Disponibil pentru proiecte</span>
+              <span>Rezultate garantate</span>
             </div>
           </div>
 
