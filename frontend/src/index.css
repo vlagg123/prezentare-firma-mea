@@ -16,16 +16,13 @@
   --grid: rgba(168, 85, 247, 0.07);
 }
 
-html {
-  scrollbar-gutter: stable;
-  overflow-x: hidden;
-  overscroll-behavior-x: none;
-}
-
-/* Radix Dialog adds padding-right to body when locking scroll — cancel it */
+/* Radix locks body scroll by adding overflow:hidden + padding-right — reset all of it */
 body[data-scroll-locked] {
+  overflow: hidden !important;
   padding-right: 0 !important;
+  padding-left: 0 !important;
   margin-right: 0 !important;
+  width: 100% !important;
 }
 
 html, body, #root {
