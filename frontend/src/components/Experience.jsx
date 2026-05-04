@@ -170,6 +170,11 @@ export default function Experience() {
     };
     if (!isMobile) {
       window.addEventListener("mousemove", onMove);
+    } else {
+      // On touch, snap smoothScroll instantly so there's no accumulated lag when finger stops momentum
+      const onTouchStart = () => { smoothScroll = scroll; };
+      window.addEventListener("touchstart", onTouchStart, { passive: true });
+      window._mobileTouchStart = onTouchStart;
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
@@ -303,6 +308,7 @@ export default function Experience() {
     return () => {
       cancelAnimationFrame(raf);
       if (!isMobile) window.removeEventListener("mousemove", onMove);
+      if (isMobile && window._mobileTouchStart) window.removeEventListener("touchstart", window._mobileTouchStart);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       mount.removeChild(renderer.domElement);
