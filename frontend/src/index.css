@@ -22,6 +22,12 @@ html {
   overscroll-behavior-x: none;
 }
 
+/* Radix Dialog adds padding-right to body when locking scroll — cancel it */
+body[data-scroll-locked] {
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
