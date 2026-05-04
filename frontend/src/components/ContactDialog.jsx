@@ -60,7 +60,7 @@ export default function ContactDialog({ trigger }) {
         className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px]"
       >
         {/* Mobile header with back button */}
-        <div className="sm:hidden flex items-center gap-3 px-4 pt-3 pb-2 border-b border-violet-500/20">
+        <div className="sm:hidden flex items-center gap-3 px-4 pt-1 pb-1 border-b border-violet-500/20">
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -71,7 +71,7 @@ export default function ContactDialog({ trigger }) {
           <span className="font-display text-lg text-white">Spune-ne ideea ta</span>
         </div>
 
-        <div className="relative p-3 sm:p-7">
+        <div className="relative p-3 pt-2 sm:p-7">
           <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gradient-to-br from-cyan-400/20 via-violet-500/20 to-pink-500/20 blur-3xl pointer-events-none" />
 
           {/* Desktop header */}

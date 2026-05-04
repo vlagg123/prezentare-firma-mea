@@ -168,7 +168,18 @@ export default function Experience() {
       camera.updateProjectionMatrix();
       renderer.setSize(W(), H());
     };
-    if (!isMobile) window.addEventListener("mousemove", onMove);
+    if (!isMobile) {
+      window.addEventListener("mousemove", onMove);
+    } else {
+      const onTouch = (e) => {
+        if (e.touches.length > 0) {
+          mouse.tx = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+          mouse.ty = -((e.touches[0].clientY / window.innerHeight) * 2 - 1);
+        }
+      };
+      window.addEventListener("touchmove", onTouch, { passive: true });
+      window._mobileTouch = onTouch;
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     onScroll();
@@ -206,34 +217,46 @@ export default function Experience() {
       smoothScroll += (scroll - smoothScroll) * 0.04;
 
       if (isMobile) {
-        // On mobile: sphere stays fixed, no scroll-driven transforms
-        coreGroup.position.x = 0;
-        coreGroup.position.y = 0;
+        // Mobile: touch-driven parallax, no scroll effects (prevents teleportation)
+        coreGroup.position.x = mouse.x * 0.3;
+        coreGroup.position.y = mouse.y * 0.2;
 
         distortCore(t);
         core.rotation.y += dt * 0.25;
-        core.rotation.x = Math.sin(t * 0.4) * 0.3;
+        core.rotation.x = Math.sin(t * 0.4) * 0.3 + mouse.y * 0.2;
         const coreScale = 1 + Math.sin(t * 1.0) * 0.04;
         core.scale.setScalar(coreScale);
 
         shell.rotation.y -= dt * 0.15;
-        shell.rotation.x = 0;
+        shell.rotation.x = -mouse.y * 0.15;
         shell.scale.setScalar(coreScale * 1.18);
 
-        ring.rotation.x = t * 0.3;
+        ring.rotation.x = t * 0.3 + mouse.y * 0.3;
         ring.rotation.y = t * 0.2;
-        ring.rotation.z = 0;
+        ring.rotation.z = mouse.x * 0.3;
+
+        panels.forEach((p) => {
+          const b = p.userData.basePos;
+          const ph = p.userData.phase;
+          p.position.y = b.y + Math.sin(t * 0.7 + ph) * 0.15;
+          p.position.x = b.x + Math.cos(t * 0.5 + ph) * 0.08;
+          p.rotation.z = Math.sin(t * 0.4 + ph) * 0.1;
+          p.rotation.y = Math.cos(t * 0.3 + ph) * 0.2;
+        });
 
         particles.rotation.y += dt * 0.03;
+        particles.rotation.x = mouse.y * 0.08;
 
         lightA.intensity = 1.8 + Math.sin(t) * 0.2;
+        lightA.color.setHSL(0.7, 0.9, 0.6);
         lightB.intensity = 1.4 + Math.cos(t * 0.7) * 0.2;
         lightC.intensity = 1.2 + Math.sin(t * 1.3) * 0.15;
+        lightC.color.setHSL(0.92, 0.9, 0.6);
 
-        camera.position.x += (0 - camera.position.x) * 0.06;
-        camera.position.y += (0 - camera.position.y) * 0.06;
+        camera.position.x += (mouse.x * 0.2 - camera.position.x) * 0.06;
+        camera.position.y += (mouse.y * 0.15 - camera.position.y) * 0.06;
         camera.position.z += (8 - camera.position.z) * 0.06;
-        camera.lookAt(0, 0, 0);
+        camera.lookAt(coreGroup.position.x, coreGroup.position.y, 0);
       } else {
         const sideOffset = 3.0 * (1 - smoothScroll);
         coreGroup.position.x = sideOffset + mouse.x * 0.15;
@@ -287,7 +310,11 @@ export default function Experience() {
 
     return () => {
       cancelAnimationFrame(raf);
-      if (!isMobile) window.removeEventListener("mousemove", onMove);
+      if (!isMobile) {
+        window.removeEventListener("mousemove", onMove);
+      } else if (window._mobileTouch) {
+        window.removeEventListener("touchmove", window._mobileTouch);
+      }
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       mount.removeChild(renderer.domElement);
