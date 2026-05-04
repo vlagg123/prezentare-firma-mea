@@ -205,51 +205,81 @@ export default function Experience() {
       mouse.y += (mouse.ty - mouse.y) * 0.06;
       smoothScroll += (scroll - smoothScroll) * 0.04;
 
-      const sideOffset = isMobile ? 0 : 3.0 * (1 - smoothScroll);
-      coreGroup.position.x = sideOffset + mouse.x * 0.15;
-      coreGroup.position.y = -smoothScroll * 0.3 + mouse.y * 0.1;
+      if (isMobile) {
+        // On mobile: sphere stays fixed, no scroll-driven transforms
+        coreGroup.position.x = 0;
+        coreGroup.position.y = 0;
 
-      distortCore(t);
-      core.rotation.y += dt * 0.25;
-      core.rotation.x = Math.sin(t * 0.4) * 0.3 + mouse.y * 0.25;
-      const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + smoothScroll * 0.6;
-      core.scale.setScalar(coreScale);
+        distortCore(t);
+        core.rotation.y += dt * 0.25;
+        core.rotation.x = Math.sin(t * 0.4) * 0.3;
+        const coreScale = 1 + Math.sin(t * 1.0) * 0.04;
+        core.scale.setScalar(coreScale);
 
-      shell.rotation.y -= dt * 0.15;
-      shell.rotation.x = -mouse.y * 0.2;
-      shell.scale.setScalar(coreScale * 1.18);
+        shell.rotation.y -= dt * 0.15;
+        shell.rotation.x = 0;
+        shell.scale.setScalar(coreScale * 1.18);
 
-      ring.rotation.x = t * 0.3 + mouse.y * 0.4;
-      ring.rotation.y = t * 0.2;
-      ring.rotation.z = mouse.x * 0.4;
+        ring.rotation.x = t * 0.3;
+        ring.rotation.y = t * 0.2;
+        ring.rotation.z = 0;
 
-      panels.forEach((p) => {
-        const b = p.userData.basePos;
-        const ph = p.userData.phase;
-        p.position.y = b.y + Math.sin(t * 0.7 + ph) * 0.15;
-        p.position.x = b.x + Math.cos(t * 0.5 + ph) * 0.08;
-        p.rotation.z = Math.sin(t * 0.4 + ph) * 0.1;
-        p.rotation.y = Math.cos(t * 0.3 + ph) * 0.2;
-      });
+        particles.rotation.y += dt * 0.03;
 
-      particles.rotation.y += dt * 0.03;
-      particles.rotation.x = mouse.y * 0.1;
+        lightA.intensity = 1.8 + Math.sin(t) * 0.2;
+        lightB.intensity = 1.4 + Math.cos(t * 0.7) * 0.2;
+        lightC.intensity = 1.2 + Math.sin(t * 1.3) * 0.15;
 
-      lightA.intensity = 1.8 + smoothScroll * 1.2 + Math.sin(t) * 0.2;
-      lightA.color.setHSL(0.7 - smoothScroll * 0.15, 0.9, 0.6);
-      lightB.intensity = 1.4 + Math.cos(t * 0.7) * 0.2;
-      lightB.color.setHSL(0.55 + smoothScroll * 0.2, 0.8, 0.55);
-      lightC.intensity = 1.2 + smoothScroll * 1.5 + Math.sin(t * 1.3) * 0.15;
-      lightC.color.setHSL(0.92 + smoothScroll * 0.05, 0.9, 0.6);
+        camera.position.x += (0 - camera.position.x) * 0.06;
+        camera.position.y += (0 - camera.position.y) * 0.06;
+        camera.position.z += (8 - camera.position.z) * 0.06;
+        camera.lookAt(0, 0, 0);
+      } else {
+        const sideOffset = 3.0 * (1 - smoothScroll);
+        coreGroup.position.x = sideOffset + mouse.x * 0.15;
+        coreGroup.position.y = -smoothScroll * 0.3 + mouse.y * 0.1;
 
-      // Camera: minor zoom + parallax
-      const targetZ = 8 - smoothScroll * (isMobile ? 1.5 : 4.5);
-      const targetX = mouse.x * 0.4;
-      const targetY = mouse.y * 0.3;
-      camera.position.x += (targetX - camera.position.x) * 0.06;
-      camera.position.y += (targetY - camera.position.y) * 0.06;
-      camera.position.z += (targetZ - camera.position.z) * 0.06;
-      camera.lookAt(coreGroup.position.x, coreGroup.position.y, 0);
+        distortCore(t);
+        core.rotation.y += dt * 0.25;
+        core.rotation.x = Math.sin(t * 0.4) * 0.3 + mouse.y * 0.25;
+        const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + smoothScroll * 0.6;
+        core.scale.setScalar(coreScale);
+
+        shell.rotation.y -= dt * 0.15;
+        shell.rotation.x = -mouse.y * 0.2;
+        shell.scale.setScalar(coreScale * 1.18);
+
+        ring.rotation.x = t * 0.3 + mouse.y * 0.4;
+        ring.rotation.y = t * 0.2;
+        ring.rotation.z = mouse.x * 0.4;
+
+        panels.forEach((p) => {
+          const b = p.userData.basePos;
+          const ph = p.userData.phase;
+          p.position.y = b.y + Math.sin(t * 0.7 + ph) * 0.15;
+          p.position.x = b.x + Math.cos(t * 0.5 + ph) * 0.08;
+          p.rotation.z = Math.sin(t * 0.4 + ph) * 0.1;
+          p.rotation.y = Math.cos(t * 0.3 + ph) * 0.2;
+        });
+
+        particles.rotation.y += dt * 0.03;
+        particles.rotation.x = mouse.y * 0.1;
+
+        lightA.intensity = 1.8 + smoothScroll * 1.2 + Math.sin(t) * 0.2;
+        lightA.color.setHSL(0.7 - smoothScroll * 0.15, 0.9, 0.6);
+        lightB.intensity = 1.4 + Math.cos(t * 0.7) * 0.2;
+        lightB.color.setHSL(0.55 + smoothScroll * 0.2, 0.8, 0.55);
+        lightC.intensity = 1.2 + smoothScroll * 1.5 + Math.sin(t * 1.3) * 0.15;
+        lightC.color.setHSL(0.92 + smoothScroll * 0.05, 0.9, 0.6);
+
+        const targetZ = 8 - smoothScroll * 4.5;
+        const targetX = mouse.x * 0.4;
+        const targetY = mouse.y * 0.3;
+        camera.position.x += (targetX - camera.position.x) * 0.06;
+        camera.position.y += (targetY - camera.position.y) * 0.06;
+        camera.position.z += (targetZ - camera.position.z) * 0.06;
+        camera.lookAt(coreGroup.position.x, coreGroup.position.y, 0);
+      }
 
       renderer.render(scene, camera);
     };
