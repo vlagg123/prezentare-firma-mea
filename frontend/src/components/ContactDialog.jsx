@@ -159,17 +159,13 @@ export default function ContactDialog({ trigger }) {
             <div>
               <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Mesaj (opțional)</label>
               <textarea
-                ref={textareaRef}
                 data-testid="form-message"
                 className="input-dark mt-2 resize-none"
                 rows={3}
                 placeholder="Câteva detalii despre idee, deadline, buget..."
                 value={form.message}
-                onChange={(e) => {
-                  update("message", e.target.value);
-                  growTextarea(e.target);
-                }}
-                style={{ touchAction: "pan-y", overscrollBehavior: "contain", minHeight: "80px" }}
+                onChange={(e) => update("message", e.target.value)}
+                style={{ touchAction: "pan-y", overscrollBehavior: "contain", height: "90px", overflowY: "auto" }}
               />
             </div>
 
