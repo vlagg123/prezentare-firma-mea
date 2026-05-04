@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/prezentare-firma-mea/static/css/main.043f78b7.css",
-    "main.js": "/prezentare-firma-mea/static/js/main.b4217c80.js",
+    "main.js": "/prezentare-firma-mea/static/js/main.1df18deb.js",
     "index.html": "/prezentare-firma-mea/index.html",
     "main.043f78b7.css.map": "/prezentare-firma-mea/static/css/main.043f78b7.css.map",
-    "main.b4217c80.js.map": "/prezentare-firma-mea/static/js/main.b4217c80.js.map"
+    "main.1df18deb.js.map": "/prezentare-firma-mea/static/js/main.1df18deb.js.map"
   },
   "entrypoints": [
     "static/css/main.043f78b7.css",
-    "static/js/main.b4217c80.js"
+    "static/js/main.1df18deb.js"
   ]
 }
