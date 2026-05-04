@@ -57,7 +57,7 @@ export default function ContactDialog({ trigger }) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         data-testid="contact-dialog"
-        className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px] overflow-hidden"
+        className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px]"
       >
         {/* Mobile header with back button */}
         <div className="sm:hidden flex items-center gap-3 px-5 pt-5 pb-3 border-b border-violet-500/20">

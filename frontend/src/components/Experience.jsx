@@ -152,6 +152,7 @@ export default function Experience() {
     /* Mouse + scroll */
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
     let scroll = 0;
+    let smoothScroll = 0;
 
     const onMove = (e) => {
       mouse.tx = (e.clientX / window.innerWidth) * 2 - 1;
@@ -167,7 +168,7 @@ export default function Experience() {
       camera.updateProjectionMatrix();
       renderer.setSize(W(), H());
     };
-    window.addEventListener("mousemove", onMove);
+    if (!isMobile) window.addEventListener("mousemove", onMove);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     onScroll();
@@ -202,19 +203,16 @@ export default function Experience() {
 
       mouse.x += (mouse.tx - mouse.x) * 0.06;
       mouse.y += (mouse.ty - mouse.y) * 0.06;
+      smoothScroll += (scroll - smoothScroll) * 0.04;
 
-      // Core group offset:
-      //   At top of page (scroll=0) — sits to the right of viewport (x≈3).
-      //   As you scroll down — moves to center (x→0) for the final dramatic zoom.
-      //   On mobile: always near center, smaller.
-      const sideOffset = isMobile ? 0 : 3.0 * (1 - scroll);
+      const sideOffset = isMobile ? 0 : 3.0 * (1 - smoothScroll);
       coreGroup.position.x = sideOffset + mouse.x * 0.15;
-      coreGroup.position.y = -scroll * 0.3 + mouse.y * 0.1;
+      coreGroup.position.y = -smoothScroll * 0.3 + mouse.y * 0.1;
 
       distortCore(t);
       core.rotation.y += dt * 0.25;
       core.rotation.x = Math.sin(t * 0.4) * 0.3 + mouse.y * 0.25;
-      const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + scroll * 0.6;
+      const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + smoothScroll * 0.6;
       core.scale.setScalar(coreScale);
 
       shell.rotation.y -= dt * 0.15;
@@ -237,15 +235,15 @@ export default function Experience() {
       particles.rotation.y += dt * 0.03;
       particles.rotation.x = mouse.y * 0.1;
 
-      lightA.intensity = 1.8 + scroll * 1.2 + Math.sin(t) * 0.2;
-      lightA.color.setHSL(0.7 - scroll * 0.15, 0.9, 0.6);
+      lightA.intensity = 1.8 + smoothScroll * 1.2 + Math.sin(t) * 0.2;
+      lightA.color.setHSL(0.7 - smoothScroll * 0.15, 0.9, 0.6);
       lightB.intensity = 1.4 + Math.cos(t * 0.7) * 0.2;
-      lightB.color.setHSL(0.55 + scroll * 0.2, 0.8, 0.55);
-      lightC.intensity = 1.2 + scroll * 1.5 + Math.sin(t * 1.3) * 0.15;
-      lightC.color.setHSL(0.92 + scroll * 0.05, 0.9, 0.6);
+      lightB.color.setHSL(0.55 + smoothScroll * 0.2, 0.8, 0.55);
+      lightC.intensity = 1.2 + smoothScroll * 1.5 + Math.sin(t * 1.3) * 0.15;
+      lightC.color.setHSL(0.92 + smoothScroll * 0.05, 0.9, 0.6);
 
       // Camera: minor zoom + parallax
-      const targetZ = 8 - scroll * 4.5;
+      const targetZ = 8 - smoothScroll * (isMobile ? 1.5 : 4.5);
       const targetX = mouse.x * 0.4;
       const targetY = mouse.y * 0.3;
       camera.position.x += (targetX - camera.position.x) * 0.06;
@@ -259,7 +257,7 @@ export default function Experience() {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMove);
+      if (!isMobile) window.removeEventListener("mousemove", onMove);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       mount.removeChild(renderer.domElement);
