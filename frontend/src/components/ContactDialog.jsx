@@ -60,7 +60,7 @@ export default function ContactDialog({ trigger }) {
         className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px]"
       >
         {/* Mobile header with back button */}
-        <div className="sm:hidden flex items-center gap-3 px-4 pt-4 pb-2 border-b border-violet-500/20">
+        <div className="sm:hidden flex items-center gap-3 px-4 pt-8 pb-3 border-b border-violet-500/20">
           <button
             type="button"
             onClick={() => setOpen(false)}
@@ -152,6 +152,7 @@ export default function ContactDialog({ trigger }) {
                 placeholder="Câteva detalii despre idee, deadline, buget..."
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
+                style={{ touchAction: "pan-y", overscrollBehavior: "contain" }}
               />
             </div>
 

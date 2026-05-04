@@ -214,17 +214,17 @@ export default function Experience() {
 
       mouse.x += (mouse.tx - mouse.x) * 0.06;
       mouse.y += (mouse.ty - mouse.y) * 0.06;
-      smoothScroll += (scroll - smoothScroll) * (isMobile ? 0.02 : 0.04);
+      smoothScroll += (scroll - smoothScroll) * (isMobile ? 0.03 : 0.04);
 
       if (isMobile) {
-        // Mobile: touch parallax + subtle scroll effects with slow lerp to prevent teleport
+        // Mobile: touch parallax + scroll-driven scale/position, slow lerp prevents iOS jerk
         coreGroup.position.x = mouse.x * 0.3;
-        coreGroup.position.y = -smoothScroll * 0.15 + mouse.y * 0.2;
+        coreGroup.position.y = -smoothScroll * 0.4 + mouse.y * 0.2;
 
         distortCore(t);
         core.rotation.y += dt * 0.25;
         core.rotation.x = Math.sin(t * 0.4) * 0.3 + mouse.y * 0.2;
-        const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + smoothScroll * 0.15;
+        const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + smoothScroll * 0.5;
         core.scale.setScalar(coreScale);
 
         shell.rotation.y -= dt * 0.15;
