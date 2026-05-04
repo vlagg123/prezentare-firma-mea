@@ -61,11 +61,6 @@ export default function ContactDialog({ trigger }) {
         data-testid="contact-dialog"
         className="glass-strong border-violet-500/30 text-violet-50 p-0 sm:overflow-hidden sm:max-w-[560px]"
       >
-        {/* Mobile: drag handle */}
-        <div className="sm:hidden flex justify-center pt-3 pb-0">
-          <div className="w-10 h-1 rounded-full bg-white/20" />
-        </div>
-
         {/* Mobile header */}
         <div className="sm:hidden flex items-center justify-between px-5 pt-4 pb-4 border-b border-violet-500/20">
           <h2 className="font-display text-xl text-white">Spune-ne ideea ta</h2>
