@@ -30,8 +30,8 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
       ref={ref}
       className={cn(
         "fixed z-50 grid w-full border bg-background shadow-lg duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 " +
-        "inset-0 h-full rounded-none overflow-y-auto overflow-x-hidden data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom " +
-        "sm:inset-auto sm:bottom-auto sm:left-[50%] sm:top-[50%] sm:h-auto sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg sm:max-h-[90vh] sm:max-w-lg sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=closed]:zoom-out-95 sm:data-[state=open]:zoom-in-95",
+        "left-[50%] top-[4%] -translate-x-1/2 w-[calc(100vw-1.5rem)] max-h-[90dvh] rounded-2xl overflow-y-auto overflow-x-hidden data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top " +
+        "sm:top-[50%] sm:-translate-y-[50%] sm:w-auto sm:max-h-[90vh] sm:rounded-lg sm:max-w-lg sm:overflow-hidden sm:data-[state=closed]:slide-out-to-top-0 sm:data-[state=open]:slide-in-from-top-0 sm:data-[state=closed]:zoom-out-95 sm:data-[state=open]:zoom-in-95",
         className
       )}
       {...props}>
