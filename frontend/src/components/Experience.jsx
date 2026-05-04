@@ -214,17 +214,17 @@ export default function Experience() {
 
       mouse.x += (mouse.tx - mouse.x) * 0.06;
       mouse.y += (mouse.ty - mouse.y) * 0.06;
-      smoothScroll += (scroll - smoothScroll) * 0.04;
+      smoothScroll += (scroll - smoothScroll) * (isMobile ? 0.02 : 0.04);
 
       if (isMobile) {
-        // Mobile: touch-driven parallax, no scroll effects (prevents teleportation)
+        // Mobile: touch parallax + subtle scroll effects with slow lerp to prevent teleport
         coreGroup.position.x = mouse.x * 0.3;
-        coreGroup.position.y = mouse.y * 0.2;
+        coreGroup.position.y = -smoothScroll * 0.15 + mouse.y * 0.2;
 
         distortCore(t);
         core.rotation.y += dt * 0.25;
         core.rotation.x = Math.sin(t * 0.4) * 0.3 + mouse.y * 0.2;
-        const coreScale = 1 + Math.sin(t * 1.0) * 0.04;
+        const coreScale = 1 + Math.sin(t * 1.0) * 0.04 + smoothScroll * 0.15;
         core.scale.setScalar(coreScale);
 
         shell.rotation.y -= dt * 0.15;
@@ -247,10 +247,10 @@ export default function Experience() {
         particles.rotation.y += dt * 0.03;
         particles.rotation.x = mouse.y * 0.08;
 
-        lightA.intensity = 1.8 + Math.sin(t) * 0.2;
-        lightA.color.setHSL(0.7, 0.9, 0.6);
+        lightA.intensity = 1.8 + smoothScroll * 0.5 + Math.sin(t) * 0.2;
+        lightA.color.setHSL(0.7 - smoothScroll * 0.1, 0.9, 0.6);
         lightB.intensity = 1.4 + Math.cos(t * 0.7) * 0.2;
-        lightC.intensity = 1.2 + Math.sin(t * 1.3) * 0.15;
+        lightC.intensity = 1.2 + smoothScroll * 0.6 + Math.sin(t * 1.3) * 0.15;
         lightC.color.setHSL(0.92, 0.9, 0.6);
 
         camera.position.x += (mouse.x * 0.2 - camera.position.x) * 0.06;
