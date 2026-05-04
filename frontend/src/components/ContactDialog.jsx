@@ -124,7 +124,22 @@ export default function ContactDialog({ trigger }) {
 
             <div>
               <label className="font-mono text-[10px] tracking-[0.2em] uppercase text-violet-300/70">Tip de website</label>
-              <div className="mt-2 flex flex-wrap gap-2" data-testid="form-types">
+
+              {/* Mobile: native select dropdown */}
+              <select
+                className="sm:hidden input-dark mt-2 cursor-pointer"
+                value={form.type}
+                onChange={(e) => update("type", e.target.value)}
+                style={{ colorScheme: "dark" }}
+              >
+                <option value="" disabled>Alege tipul...</option>
+                {websiteTypes.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+
+              {/* Desktop: pill buttons */}
+              <div className="hidden sm:flex mt-2 flex-wrap gap-2" data-testid="form-types">
                 {websiteTypes.map((t) => {
                   const active = form.type === t;
                   return (
